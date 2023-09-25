@@ -29,7 +29,7 @@
             'bg-white rounded-lg border border-gray-300 dark:border-white/10 dd-handle h-10',
             'mb-2',
             'flex w-full items-center ',
-            'dark:bg-gray-900' => Filament::hasDarkMode(),
+            'dark:bg-gray-900' => config('filament.dark_mode'),
         ])>
 
         <button type="button" class="h-full flex items-center bg-gray-50 dark:bg-black/30 rounded-l-lg border-r border-gray-300 dark:border-white/10 px-px">
