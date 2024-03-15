@@ -183,7 +183,7 @@ trait HasActions
     {
         $action = $this->getMountedTreeAction();
 
-        if ($action->isModalHidden()) {
+        if (!$action->shouldOpenModal()) {
             return false;
         }
 
