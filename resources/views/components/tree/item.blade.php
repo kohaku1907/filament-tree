@@ -1,13 +1,7 @@
 @php use Illuminate\Database\Eloquent\Model; @endphp
 @php use Filament\Facades\Filament; @endphp
 @php use SolutionForest\FilamentTree\Components\Tree; @endphp
-@props([
-    'record',
-    'containerKey',
-    'tree',
-    'title' => null,
-    'icon' => null,
-])
+@props(['record', 'containerKey', 'tree', 'title' => null, 'icon' => null])
 @php
     /** @var $record Model */
     /** @var $containerKey string */
@@ -24,16 +18,20 @@
 
 <li class="filament-tree-row dd-item" data-id="{{ $recordKey }}">
     <div wire:loading.remove.delay
-         wire:target="{{ implode(',', Tree::LOADING_TARGETS) }}"
+        wire:target="{{ implode(',', Tree::LOADING_TARGETS) }}"
         @class([
-            'bg-white rounded-lg border border-gray-300 dark:border-white/10 dd-handle h-10',
+            'rounded-lg border dd-handle h-10',
             'mb-2',
-            'flex w-full items-center ',
-            'dark:bg-gray-900' => config('filament.dark_mode'),
+            'flex w-full items-center',
+            'border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900',
         ])>
 
-        <button type="button" class="h-full flex items-center bg-gray-50 dark:bg-black/30 rounded-l-lg border-r border-gray-300 dark:border-white/10 px-px">
-            <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4 -mr-2"/>
+        <button type="button" @class([
+            'h-full flex items-center',
+            'rounded-l-lg border-r rtl:rounded-l rtl:border-r-0 rtl:border-l px-px',
+            'bg-gray-50 border-gray-300 dark:bg-white/5 dark:border-white/10',
+        ])>
+            <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4 -mr-2 rtl:mr-0 rtl:-ml-2"/>
             <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4"/>
         </button>
 
@@ -45,34 +43,30 @@
             @endif
 
             <span @class([
-                'ml-4' => !$icon,
+                'ml-4 rtl:mr-4' => !$icon,
                 'font-semibold'
             ])>
                 {{ $title }}
             </span>
 
-            <div @class([
-                'dd-item-btns',
-                'hidden' => ! count($children),
-                'flex items-center justify-center pl-3'
-            ])>
-                <button data-action="expand" @class(['hidden' => ! $collapsed])>
-                    <x-heroicon-m-chevron-down class="text-gray-400 dark:text-gray-400 w-5 h-5"/>
+            <div @class(['dd-item-btns', 'hidden' => !count($children), 'flex items-center justify-center pl-3'])>
+                <button data-action="expand" @class(['hidden' => !$collapsed])>
+                    <x-heroicon-o-chevron-down class="text-gray-400 w-4 h-4" />
                 </button>
                 <button data-action="collapse" @class(['hidden' => $collapsed])>
-                    <x-heroicon-m-chevron-up class="text-gray-400 dark:text-gray-400 w-5 h-5"/>
+                    <x-heroicon-o-chevron-up class="text-gray-400 w-4 h-4" />
                 </button>
             </div>
         </div>
 
         @if (count($actions))
-        <div class="dd-nodrag ml-auto mr-4 rtl:ml-4 rtl:mr-auto">
-                <x-filament-tree::actions :actions="$actions" :record="$record"/>
+            <div class="dd-nodrag ml-auto mr-4 rtl:ml-4 rtl:mr-auto">
+                <x-filament-tree::actions :actions="$actions" :record="$record" />
             </div>
         @endif
     </div>
     @if (count($children))
-        <x-filament-tree::tree.list :records="$children" :containerKey="$containerKey" :tree="$tree" :collapsed="$collapsed"/>
+        <x-filament-tree::tree.list :records="$children" :containerKey="$containerKey" :tree="$tree" :collapsed="$collapsed" />
     @endif
     <div class="rounded-lg border border-gray-300 mb-2 w-full px-4 py-4 animate-pulse hidden"
          wire:loading.class.remove.delay="hidden"
