@@ -4,6 +4,7 @@ namespace SolutionForest\FilamentTree\Concern;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use SolutionForest\FilamentTree\Concern\SupportTranslation;
 use SolutionForest\FilamentTree\Support\Utils;
@@ -17,9 +18,13 @@ trait ModelTree
 
     public function initializeModelTree()
     {
-        $this->fillable[] = $this->determineOrderColumnName();
-        $this->fillable[] = $this->determineParentColumnName();
-        $this->fillable[] = $this->determineTitleColumnName();
+        if (!empty($this->getFillable())) {
+            $this->mergeFillable([
+                $this->determineOrderColumnName(),
+                $this->determineParentColumnName(),
+                $this->determineTitleColumnName(),
+            ]);
+        }
     }
 
     /**
