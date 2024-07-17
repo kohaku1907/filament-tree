@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use SolutionForest\FilamentTree\Concern\SupportTranslation;
 use SolutionForest\FilamentTree\Support\Utils;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait ModelTree
 {
